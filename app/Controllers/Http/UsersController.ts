@@ -17,7 +17,7 @@ export default class UsersController {
   }
 
   public async getOneUser({ params }: HttpContextContract) {
-    let user = this.userService.getUser(params.id)
+    let user = this.userService.getOne(params.id)
 
     return user
   }
@@ -57,7 +57,7 @@ export default class UsersController {
       },
     })
 
-    const user = this.userService.createUser(validatedPayLoad)
+    const user = this.userService.create(validatedPayLoad)
 
     return user
   }
@@ -112,7 +112,7 @@ export default class UsersController {
   }
 
   public async deleteUser({ params, response }: HttpContextContract) {
-    await this.userService.deleteUser(params.id)
+    await this.userService.delete(params.id)
 
     return response.noContent()
   }
