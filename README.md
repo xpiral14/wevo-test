@@ -15,7 +15,7 @@
 
 2. entre na pasta do projeto:
 ```
-    cd wevo-test
+    cd ./wevo-test
 ```
 
 3. instale as dependencias:
