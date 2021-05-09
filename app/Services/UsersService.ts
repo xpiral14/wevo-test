@@ -1,12 +1,19 @@
 import { DateTime } from 'luxon'
 import User from '../Models/User'
+import Creatable from './Creatable'
+import Deletable from './Deletable'
+import Readable from './Readable'
 
-export default class UsersService {
-  public async getUser(userId: number) {
-    return User.findOrFail(userId)
+export default class UsersService implements Readable<User>, Creatable<User>, Deletable {
+  public async getAll() {
+    return User.all()
   }
 
-  public async createUser(userData: {
+  public async getOne(id: number) {
+    return User.findOrFail(id)
+  }
+
+  public async create(userData: {
     name: string
     cpf: string
     email: string
@@ -27,16 +34,20 @@ export default class UsersService {
       birthday?: DateTime
     }
   ) {
-    const user = await this.getUser(userId)
+    const user = await this.getOne(userId)
     user.fill(userData)
 
     user.save()
     return user
   }
 
-  public async deleteUser(userId) {
-    const user = await User.findOrFail(userId)
+  public async delete(userId) {
+    try {
+      const user = await User.find(userId)
 
-    await user.delete()
+      await user?.delete()
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
